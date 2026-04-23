@@ -1,0 +1,59 @@
+{% schema %}
+{
+  "name": "Countdown Timer",
+  "target": "section",
+  "settings": [
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#000000" }
+  ]
+}
+{% endschema %}
+
+<style>
+  #helixo-countdown-anchor {
+    min-height: 80px; /* Pre-allocate space to prevent Cumulative Layout Shift (CLS) */
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+  @keyframes helixo-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+</style>
+
+<div 
+  id="helixo-countdown-anchor" 
+  data-shop="{{ shop.permanent_domain }}"
+  data-product-id="{{ product.id }}"
+  data-collection-ids="{{ product.collections | map: 'id' | join: ',' }}"
+>
+  <!-- The widget will be hydrated here by Preact -->
+</div>
+
+<script src="{{ 'timer.js' | asset_url }}" defer="defer"></script>
+
+<script>
+  /**
+   * Pro Tip: Fetching the timer configuration as soon as possible.
+   * We use the storefront's native fetch and handle the App Proxy routing.
+   */
+  document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('helixo-countdown-anchor');
+    const { shop, productId, collectionIds } = container.dataset;
+
+    try {
+      const response = await fetch(`/apps/helixo/api/active-timer?shop=${shop}&productId=${productId}&collectionIds=${collectionIds}`);
+      const payload = await response.json();
+
+      if (payload.data && payload.data.timer) {
+        container.dataset.config = JSON.stringify(payload.data.timer);
+        // Dispatch custom event if we need to notify other components
+        window.dispatchEvent(new CustomEvent('helixo:timer-loaded', { detail: payload.data.timer }));
+      }
+    } catch (error) {
+      console.error('Helixo Timer Error:', error);
+      container.style.display = 'none'; // Graceful degradation
+    }
+  });
+</script>

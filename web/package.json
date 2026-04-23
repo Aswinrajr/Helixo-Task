@@ -1,0 +1,28 @@
+{
+  "name": "helixo-countdown-web",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "preact": "^10.19.2",
+    "preact-render-to-string": "^6.3.1",
+    "@shopify/polaris": "^12.0.0",
+    "@shopify/polaris-icons": "^9.0.0",
+    "@shopify/app-bridge-react": "^3.7.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.10"
+  }
+}

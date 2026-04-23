@@ -1,0 +1,29 @@
+# Learn more about the shopify.app.toml file at:
+# https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "" # This will be filled automatically after your first deploy
+name = "helixo-countdown"
+handle = "helixo-countdown"
+type = "app"
+application_url = "http://localhost:8085"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = ""
+
+[access_scopes]
+# These are the permissions your app needs
+scopes = "write_products,read_products"
+
+[auth]
+redirect_urls = [
+  "http://localhost:8085/api/auth/callback",
+  "http://localhost:8085/api/auth/tokens"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+[pos]
+embedded = false
